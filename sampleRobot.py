@@ -30,6 +30,7 @@ from PyGtalkRobot import GtalkRobot
 
 ############################################################################################################################
 class GNoteBot(GtalkRobot):
+    #command_ is the command prefix, and 
     def command_01_setState(self, user, message, args):
         """(available|online|on|busy|dnd|away|idle|out|xa)\s*?(.*)$"""
         show = args[0]

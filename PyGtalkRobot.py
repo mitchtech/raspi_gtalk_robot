@@ -26,12 +26,30 @@ import urllib
 import re
 import inspect
 
+"""A simple jabber/xmpp bot framework
+
+This is a simple jabber/xmpp bot framework using Regular Expression Pattern as command controller.
+Copyright (c) 2008 Demiao Lin <ldmiao@gmail.com>
+
+To use, subclass the "GtalkRobot" class and implement "command_NUM_" methods 
+(or whatever you set the command_prefix to), like sampleRobot.py.
+
+"""
+
 class GtalkRobot:
-    
+
+    ########################################################################################################################
+    conn = None
+    show = None
+    status = None
+    commands = None
+    command_prefix = 'command_'
+
     ########################################################################################################################
     def command_99_default(self, user, message, args):
         """.*?"""
         self.replyMessage(user, message)
+
     ########################################################################################################################
     #show : xa,away---away   dnd---busy   available--online
     def setState(self, show, status_text):
@@ -74,12 +92,7 @@ class GtalkRobot:
         roster = self.getRoster()
         if roster:
             return roster.getStatus(jid)
-    ########################################################################################################################
-    conn = None
-    show = None
-    status = None
-    commands = None
-    command_prefix = 'command_'
+
     ########################################################################################################################
     def initCommands(self):
         if self.commands:
@@ -117,6 +130,7 @@ class GtalkRobot:
 
     def GoOn(self):
         while self.StepOn(): pass
+
     ########################################################################################################################
     def start(self, gmail_account, password, status_text):       
         jid=xmpp.JID(gmail_account)
