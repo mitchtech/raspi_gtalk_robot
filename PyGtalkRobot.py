@@ -10,6 +10,10 @@ import inspect
 class GtalkRobot:
     
     ########################################################################################################################
+    def command_99_default(self, user, message, args):
+        """.*?"""
+        self.replyMessage(user, message)
+    ########################################################################################################################
     #show : xa,away---away   dnd---busy   available--online
     def setState(self, show, status_text):
         if self.conn:
@@ -74,8 +78,9 @@ class GtalkRobot:
         if not self.commands:
             self.initCommands()
         for (pattern, bounded_method) in self.commands:
-            if(re.match(pattern, text)):
-                bounded_method(user, text)
+            match_obj = re.match(pattern, text)
+            if(match_obj):
+                bounded_method(user, text, match_obj.groups())
                 break
 
     def StepOn(self):
@@ -126,5 +131,3 @@ class GtalkRobot:
 if __name__ == "__main__":
     bot = GtalkRobot()
     bot.start("account_name@gmail.com", "xxxxxxxxxxxxx", "Simple Gtalk Robot")
-    
-    
