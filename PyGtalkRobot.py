@@ -1,4 +1,4 @@
-#!/usr/bin/python
+﻿#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 # PyGtalkRobot: A simple jabber/xmpp bot framework using Regular Expression Pattern as command controller
@@ -54,6 +54,8 @@ class GtalkRobot:
     #show : xa,away---away   dnd---busy   available--online
     def setState(self, show, status_text):
         if self.conn:
+            if show:
+                show = lower(show)
             if show == "online" or show == "on" or show == "available":
                 show = "available"
             elif show == "busy" or show == "dnd":
@@ -118,13 +120,7 @@ class GtalkRobot:
     def StepOn(self):
         global roster
         try:
-            #print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
             self.conn.Process(1)
-            #roster = self.conn.getRoster()
-            #print roster.getItem("ldmiao@gmail.com")["resources"]
-            #name = self.conn.getRoster().getName("ldmiao@gmail.com")
-            #print name
-            #print "----------------------------------------------------------"
         except KeyboardInterrupt: return 0
         return 1
 
@@ -137,7 +133,8 @@ class GtalkRobot:
         user, server, password = jid.getNode(), jid.getDomain(), password
 
         self.conn=xmpp.Client(server, debug=[])
-        conres=self.conn.connect( server=("talk.google.com",5223) )
+        #talk.google.com
+        conres=self.conn.connect( server=("gmail.com",5223) )
         if not conres:
             print "Unable to connect to server %s!"%server
             sys.exit(1)
@@ -163,5 +160,4 @@ class GtalkRobot:
 ############################################################################################################################
 if __name__ == "__main__":
     bot = GtalkRobot()
-    bot.start("account_name@gmail.com", "xxxxxxxxxxxxx")
-    bot.setState("available", "Simple Gtalk Robot")
+    bot.start("account_name@gmail.com", "xxxxxxxxxxxxx", "Simple Gtalk Robot")

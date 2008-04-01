@@ -1,4 +1,4 @@
-#!/usr/bin/python
+﻿#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 # PyGtalkRobot: A simple jabber/xmpp bot framework using Regular Expression Pattern as command controller
@@ -50,10 +50,12 @@ class GNoteBot(GtalkRobot):
     def command_100_default(self, user, message, args):
         """.*?"""
         self.replyMessage(user, time.strftime("%Y-%m-%d %a %H:%M:%S", time.gmtime()))
+        
+    def auth(self):
+        return True
 
 ############################################################################################################################
 if __name__ == "__main__":
     bot = GNoteBot()
-    bot.start("account_name@gmail.com", "xxxxxxxxxxxxx")
-    bot.setState("available", "Simple Gtalk Robot")
-	
+    bot.start("account_name@gmail.com", "xxxxxxxxxxxxx", "Simple Gtalk Robot")
+    
