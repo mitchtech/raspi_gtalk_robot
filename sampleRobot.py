@@ -36,9 +36,11 @@ class GNoteBot(GtalkRobot):
         show = args[0]
         status = args[1]
         jid = user.getStripped()
-        print jid, " ---> ",bot.getResources(jid), bot.getShow(jid), bot.getStatus(jid)
-        self.setState(show, status)
-        bot.replyMessage(user, "状态设置成功！")
+        # Verify if the user is the Administrator of this bot
+        if jid = 'ldmiao@gmail.com'
+            print jid, " ---> ",bot.getResources(jid), bot.getShow(jid), bot.getStatus(jid)
+            self.setState(show, status)
+            self.replyMessage(user, "状态设置成功！")
 
     def command_002_justSave(self, user, message, args):
         """.*?\n.*"""
