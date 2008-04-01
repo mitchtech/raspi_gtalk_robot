@@ -30,8 +30,8 @@ from PyGtalkRobot import GtalkRobot
 
 ############################################################################################################################
 class GNoteBot(GtalkRobot):
-    #command_ is the command prefix, 01 is the priviledge num, setState is the method name
-    def command_01_setState(self, user, message, args):
+    #command_ is the command prefix, 001 is the priviledge num, setState is the method name
+    def command_001_setState(self, user, message, args):
         """(available|online|on|busy|dnd|away|idle|out|off|xa)\s*?(.*)$"""
         show = args[0]
         status = args[1]
@@ -40,12 +40,12 @@ class GNoteBot(GtalkRobot):
         self.setState(show, status)
         bot.replyMessage(user, "状态设置成功！")
 
-    def command_02_justSave(self, user, message, args):
+    def command_002_justSave(self, user, message, args):
         """.*?\n.*"""
         self.replyMessage(user, "已保存！")
         self.replyMessage(user, time.strftime("%Y-%m-%d %a %H:%M:%S", time.gmtime()))
     
-    def command_98_default(self, user, message, args):
+    def command_100_default(self, user, message, args):
         """.*?"""
         self.replyMessage(user, time.strftime("%Y-%m-%d %a %H:%M:%S", time.gmtime()))
 

@@ -46,7 +46,7 @@ class GtalkRobot:
     command_prefix = 'command_'
 
     ########################################################################################################################
-    def command_99_default(self, user, message, args):
+    def command_999_default(self, user, message, args):
         """.*?"""
         self.replyMessage(user, message)
 
