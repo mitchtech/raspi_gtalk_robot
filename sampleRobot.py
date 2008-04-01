@@ -21,7 +21,7 @@
 #
 
 #
-# This is an sample PyGtalkRobot that serves to set the show type and status text of robot by receiving messages.
+# This is an sample PyGtalkRobot that serves to set the show type and status text of robot by receiving message commands.
 #
 
 import sys
@@ -30,9 +30,9 @@ from PyGtalkRobot import GtalkRobot
 
 ############################################################################################################################
 class GNoteBot(GtalkRobot):
-    #command_ is the command prefix, and 
+    #command_ is the command prefix, 01 is the priviledge num, setState is the method name
     def command_01_setState(self, user, message, args):
-        """(available|online|on|busy|dnd|away|idle|out|xa)\s*?(.*)$"""
+        """(available|online|on|busy|dnd|away|idle|out|off|xa)\s*?(.*)$"""
         show = args[0]
         status = args[1]
         jid = user.getStripped()

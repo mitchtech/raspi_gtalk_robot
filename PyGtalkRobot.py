@@ -58,7 +58,7 @@ class GtalkRobot:
                 show = "available"
             elif show == "busy" or show == "dnd":
                 show = "dnd"
-            elif show == "away" or show == "idle" or show == "out" or show == "xa":
+            elif show == "away" or show == "idle" or show == "off" or show == "out" or show == "xa":
                 show = "xa"
             else:
                 show = "available"
