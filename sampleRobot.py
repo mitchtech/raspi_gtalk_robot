@@ -28,6 +28,27 @@ import sys
 import time
 from PyGtalkRobot import GtalkRobot
 
+#############################################################################################################################
+def toUTF8(onestr):
+    newstr = onestr
+    try:
+        newstr = unicode(newstr, 'cp936', 'ignore')
+    except:
+        pass
+    return newstr.encode('utf-8', 'ignore')
+
+
+def getGB2312UnicodeString(onestr):
+    newstr = onestr
+    try:
+        newstr = unicode(newstr, 'cp936', 'ignore')
+    except:
+        pass
+    return newstr.encode('cp936', 'ignore')
+
+############################################################################################################################
+
+
 ############################################################################################################################
 class GNoteBot(GtalkRobot):
     #Pattern Tips:
@@ -51,16 +72,14 @@ class GNoteBot(GtalkRobot):
             self.replyMessage(user, "状态设置成功！")
 
     def command_002_justSave(self, user, message, args):
-        """.*?\n.*"""
-        self.replyMessage(user, "已保存！")
+        """(.*?\n.*)(?s)(?m)"""
+        #self.replyMessage(user, "\n"+message + "\n多行内容！")
+        self.replyMessage(user, "\n"+args[0] + "\n多行内容！")
         self.replyMessage(user, time.strftime("%Y-%m-%d %a %H:%M:%S", time.gmtime()))
     
     def command_100_default(self, user, message, args):
-        """.*?"""
+        """.*?(?s)(?m)"""
         self.replyMessage(user, time.strftime("%Y-%m-%d %a %H:%M:%S", time.gmtime()))
-        
-    def auth(self):
-        return True
 
 ############################################################################################################################
 if __name__ == "__main__":

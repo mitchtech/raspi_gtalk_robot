@@ -56,7 +56,7 @@ class GtalkRobot:
     
     #This method is the default action for all pattern in lowest priviledge
     def command_999_default(self, user, message, args):
-        """.*?"""
+        """.*?(?s)(?m)"""
         self.replyMessage(user, message)
 
     ########################################################################################################################
@@ -120,6 +120,7 @@ class GtalkRobot:
     def controller(self, conn, message):
         text = message.getBody()
         user = message.getFrom()
+        text = text.encode('utf-8', 'ignore')
         if not self.commands:
             self.initCommands()
         for (pattern, bounded_method) in self.commands:
@@ -162,7 +163,7 @@ class GtalkRobot:
 
         authres=self.conn.auth(user, password)
         if not authres:
-            print "Unable to authorize on %s - check login/password."%server
+            print "Unable to authorize on %s - Plsese check your name/password."%server
             sys.exit(1)
         if authres<>"sasl":
             print "Warning: unable to perform SASL auth os %s. Old authentication method used!"%server
@@ -170,11 +171,12 @@ class GtalkRobot:
         self.conn.RegisterHandler("message", self.controller)
         self.conn.sendInitPresence()
 
-        self.setState(None, status_text)
+        self.setState("available", status_text)
 
         print "Bot started."
         self.GoOn()
     ########################################################################################################################
+
 
 ############################################################################################################################
 if __name__ == "__main__":
