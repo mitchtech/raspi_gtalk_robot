@@ -44,13 +44,15 @@ class GtalkRobot:
     status = None
     commands = None
     command_prefix = 'command_'
-
     ########################################################################################################################
+    #This method is the default action for all pattern in lowest priviledge
     def command_999_default(self, user, message, args):
         """.*?"""
         self.replyMessage(user, message)
 
     ########################################################################################################################
+    #These following methods can be only used after bot has been successfully started
+    
     #show : xa,away---away   dnd---busy   available--online
     def setState(self, show, status_text):
         if self.conn:
@@ -135,7 +137,7 @@ class GtalkRobot:
         self.debug = debug
         self.server_host = server_host
         self.server_port = server_port
-        
+
     def start(self, gmail_account, password, status_text="Available"):
         jid=xmpp.JID(gmail_account)
         user, server, password = jid.getNode(), jid.getDomain(), password
