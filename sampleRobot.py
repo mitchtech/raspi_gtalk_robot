@@ -30,9 +30,17 @@ from PyGtalkRobot import GtalkRobot
 
 ############################################################################################################################
 class GNoteBot(GtalkRobot):
+    #Pattern Tips:
+    # I or IGNORECASE <=> (?i)      case insensitive matching
+    # L or LOCALE <=> (?L)          make \w, \W, \b, \B dependent on the current locale
+    # M or MULTILINE <=> (?m)       matches every new line and not only start/end of the whole string
+    # S or DOTALL <=> (?s)          '.' matches ALL chars, including newline
+    # U or UNICODE <=> (?u)         Make \w, \W, \b, and \B dependent on the Unicode character properties database.
+    # X or VERBOSE <=> (?x)         Ignores whitespace outside character sets
+
     #command_ is the command prefix, 001 is the priviledge num, setState is the method name
     def command_001_setState(self, user, message, args):
-        """(available|online|on|busy|dnd|away|idle|out|off|xa)\s*?(.*)$"""
+        """(available|online|on|busy|dnd|away|idle|out|off|xa)\s+(.*)$(?i)"""
         show = args[0]
         status = args[1]
         jid = user.getStripped()
@@ -56,5 +64,6 @@ class GNoteBot(GtalkRobot):
 
 ############################################################################################################################
 if __name__ == "__main__":
-    bot = GNoteBot(debug=['always'])
+    bot = GNoteBot()
+    #bot = GNoteBot(debug=['always'])
     bot.start("PyGtalkRobot@gmail.com", "PyGtalkRobotByLdmiao", "Simple Gtalk Robot")

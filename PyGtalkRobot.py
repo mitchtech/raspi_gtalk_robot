@@ -31,7 +31,7 @@ import inspect
 This is a simple jabber/xmpp bot framework using Regular Expression Pattern as command controller.
 Copyright (c) 2008 Demiao Lin <ldmiao@gmail.com>
 
-To use, subclass the "GtalkRobot" class and implement "command_NUM_" methods 
+To use, subclass the "GtalkRobot" class and implement "command_NUM_" methods
 (or whatever you set the command_prefix to), like sampleRobot.py.
 
 """
@@ -45,6 +45,15 @@ class GtalkRobot:
     commands = None
     command_prefix = 'command_'
     ########################################################################################################################
+    
+    #Pattern Tips:
+    # I or IGNORECASE <=> (?i)      case insensitive matching
+    # L or LOCALE <=> (?L)          make \w, \W, \b, \B dependent on the current locale
+    # M or MULTILINE <=> (?m)       matches every new line and not only start/end of the whole string
+    # S or DOTALL <=> (?s)          '.' matches ALL chars, including newline
+    # U or UNICODE <=> (?u)         Make \w, \W, \b, and \B dependent on the Unicode character properties database.
+    # X or VERBOSE <=> (?x)         Ignores whitespace outside character sets
+    
     #This method is the default action for all pattern in lowest priviledge
     def command_999_default(self, user, message, args):
         """.*?"""
@@ -52,12 +61,12 @@ class GtalkRobot:
 
     ########################################################################################################################
     #These following methods can be only used after bot has been successfully started
-    
+
     #show : xa,away---away   dnd---busy   available--online
     def setState(self, show, status_text):
         if self.conn:
             if show:
-                show = lower(show)
+                show = show.lower()
             if show == "online" or show == "on" or show == "available":
                 show = "available"
             elif show == "busy" or show == "dnd":
@@ -70,23 +79,23 @@ class GtalkRobot:
 
             if status_text:
                 self.status = status_text
-            
+
             pres=xmpp.Presence(priority=5, show=self.show, status=self.status)
             self.conn.send(pres)
         else:
             print "Connection lost!"
-    
+
     def replyMessage(self, user, message):
         self.conn.send(xmpp.Message(user, message))
-    
+
     def getRoster(self):
         return self.conn.getRoster()
-    
+
     def getResources(self, jid):
         roster = self.getRoster()
         if roster:
             return roster.getResources(jid)
-            
+
     def getShow(self, jid):
         roster = self.getRoster()
         if roster:
@@ -107,7 +116,7 @@ class GtalkRobot:
             if inspect.ismethod(value) and name.startswith(self.command_prefix):
                 self.commands.append((value.__doc__, value))
         #print self.commands
-        
+
     def controller(self, conn, message):
         text = message.getBody()
         user = message.getFrom()
@@ -130,7 +139,7 @@ class GtalkRobot:
         while self.StepOn(): pass
 
     ########################################################################################################################
-    # "debug" parameter specifies the debug IDs that will go into debug output. 
+    # "debug" parameter specifies the debug IDs that will go into debug output.
     # You can either specifiy an "include" or "exclude" list. The latter is done via adding "always" pseudo-ID to the list.
     # Full list: ['nodebuilder', 'dispatcher', 'gen_auth', 'SASL_auth', 'bind', 'socket', 'CONNECTproxy', 'TLS', 'roster', 'browser', 'ibb'].
     def __init__(self, server_host="gmail.com", server_port=5223, debug=[]):
@@ -150,19 +159,19 @@ class GtalkRobot:
             sys.exit(1)
         if conres<>'tls':
             print "Warning: unable to estabilish secure connection - TLS failed!"
-        
+
         authres=self.conn.auth(user, password)
         if not authres:
             print "Unable to authorize on %s - check login/password."%server
             sys.exit(1)
         if authres<>"sasl":
             print "Warning: unable to perform SASL auth os %s. Old authentication method used!"%server
-        
+
         self.conn.RegisterHandler("message", self.controller)
         self.conn.sendInitPresence()
-        
+
         self.setState(None, status_text)
-        
+
         print "Bot started."
         self.GoOn()
     ########################################################################################################################
