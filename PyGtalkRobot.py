@@ -132,7 +132,7 @@ class GtalkRobot:
         while self.StepOn(): pass
 
     ########################################################################################################################
-    def start(self, gmail_account, password, status_text):       
+    def start(self, gmail_account, password, status_text="Available"):       
         jid=xmpp.JID(gmail_account)
         user, server, password = jid.getNode(), jid.getDomain(), password
 
@@ -154,7 +154,7 @@ class GtalkRobot:
         self.conn.RegisterHandler("message", self.controller)
         self.conn.sendInitPresence()
         
-        self.setState(None, "Google Notebook Robot")
+        self.setState(None, status_text)
         
         print "Bot started."
         self.GoOn()
