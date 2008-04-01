@@ -181,4 +181,4 @@ class GtalkRobot:
 ############################################################################################################################
 if __name__ == "__main__":
     bot = GtalkRobot()
-    bot.start("account_name@gmail.com", "xxxxxxxxxxxxx", "Simple Gtalk Robot")
+    bot.start("PyGtalkRobot@gmail.com", "PyGtalkRobotByLdmiao", "Simple Gtalk Robot")
