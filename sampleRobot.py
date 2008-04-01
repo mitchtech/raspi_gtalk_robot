@@ -56,6 +56,5 @@ class GNoteBot(GtalkRobot):
 
 ############################################################################################################################
 if __name__ == "__main__":
-    bot = GNoteBot()
-    bot.start("account_name@gmail.com", "xxxxxxxxxxxxx", "Simple Gtalk Robot")
-    
+    bot = GNoteBot(debug=['always'])
+    bot.start("PyGtalkRobot@gmail.com", "PyGtalkRobotByLdmiao", "Simple Gtalk Robot")

@@ -128,13 +128,21 @@ class GtalkRobot:
         while self.StepOn(): pass
 
     ########################################################################################################################
+    # "debug" parameter specifies the debug IDs that will go into debug output. 
+    # You can either specifiy an "include" or "exclude" list. The latter is done via adding "always" pseudo-ID to the list.
+    # Full list: ['nodebuilder', 'dispatcher', 'gen_auth', 'SASL_auth', 'bind', 'socket', 'CONNECTproxy', 'TLS', 'roster', 'browser', 'ibb'].
+    def __init__(self, server_host="gmail.com", server_port=5223, debug=[]):
+        self.debug = debug
+        self.server_host = server_host
+        self.server_port = server_port
+        
     def start(self, gmail_account, password, status_text="Available"):
         jid=xmpp.JID(gmail_account)
         user, server, password = jid.getNode(), jid.getDomain(), password
 
-        self.conn=xmpp.Client(server, debug=[])
+        self.conn=xmpp.Client(server, debug=self.debug)
         #talk.google.com
-        conres=self.conn.connect( server=("gmail.com",5223) )
+        conres=self.conn.connect( server=(self.server_host, self.server_port) )
         if not conres:
             print "Unable to connect to server %s!"%server
             sys.exit(1)
