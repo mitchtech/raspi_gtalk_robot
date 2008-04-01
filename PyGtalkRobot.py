@@ -132,7 +132,7 @@ class GtalkRobot:
         while self.StepOn(): pass
 
     ########################################################################################################################
-    def start(self, gmail_account, password, status_text="Available"):       
+    def start(self, gmail_account, password, status_text="Available"):
         jid=xmpp.JID(gmail_account)
         user, server, password = jid.getNode(), jid.getDomain(), password
 
@@ -163,4 +163,5 @@ class GtalkRobot:
 ############################################################################################################################
 if __name__ == "__main__":
     bot = GtalkRobot()
-    bot.start("account_name@gmail.com", "xxxxxxxxxxxxx", "Simple Gtalk Robot")
+    bot.start("account_name@gmail.com", "xxxxxxxxxxxxx")
+	bot.setState("available", "Simple Gtalk Robot")
