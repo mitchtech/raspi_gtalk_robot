@@ -26,28 +26,8 @@
 
 import sys
 import time
+
 from PyGtalkRobot import GtalkRobot
-
-#############################################################################################################################
-def toUTF8(onestr):
-    newstr = onestr
-    try:
-        newstr = unicode(newstr, 'cp936', 'ignore')
-    except:
-        pass
-    return newstr.encode('utf-8', 'ignore')
-
-
-def getGB2312UnicodeString(onestr):
-    newstr = onestr
-    try:
-        newstr = unicode(newstr, 'cp936', 'ignore')
-    except:
-        pass
-    return newstr.encode('cp936', 'ignore')
-
-############################################################################################################################
-
 
 ############################################################################################################################
 class GNoteBot(GtalkRobot):
