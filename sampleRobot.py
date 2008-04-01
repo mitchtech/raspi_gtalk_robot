@@ -53,5 +53,5 @@ class GNoteBot(GtalkRobot):
 if __name__ == "__main__":
     bot = GNoteBot()
     bot.start("account_name@gmail.com", "xxxxxxxxxxxxx")
-	bot.setState("available", "Simple Gtalk Robot")
+    bot.setState("available", "Simple Gtalk Robot")
 	
