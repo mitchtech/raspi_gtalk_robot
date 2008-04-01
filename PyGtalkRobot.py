@@ -40,8 +40,8 @@ class GtalkRobot:
 
     ########################################################################################################################
     conn = None
-    show = None
-    status = None
+    show = "available"
+    status = "PyGtalkRobot"
     commands = None
     command_prefix = 'command_'
     ########################################################################################################################
@@ -64,26 +64,28 @@ class GtalkRobot:
 
     #show : xa,away---away   dnd---busy   available--online
     def setState(self, show, status_text):
+        if show:
+            show = show.lower()
+        if show == "online" or show == "on" or show == "available":
+            show = "available"
+        elif show == "busy" or show == "dnd":
+            show = "dnd"
+        elif show == "away" or show == "idle" or show == "off" or show == "out" or show == "xa":
+            show = "xa"
+        else:
+            show = "available"
+        
+        self.show = show
+
+        if status_text:
+            self.status = status_text
+        
         if self.conn:
-            if show:
-                show = show.lower()
-            if show == "online" or show == "on" or show == "available":
-                show = "available"
-            elif show == "busy" or show == "dnd":
-                show = "dnd"
-            elif show == "away" or show == "idle" or show == "off" or show == "out" or show == "xa":
-                show = "xa"
-            else:
-                show = "available"
-            self.show = show
-
-            if status_text:
-                self.status = status_text
-
             pres=xmpp.Presence(priority=5, show=self.show, status=self.status)
             self.conn.send(pres)
-        else:
-            print "Connection lost!"
+
+    def getState(self):
+        return self.show, self.status
 
     def replyMessage(self, user, message):
         self.conn.send(xmpp.Message(user, message))
@@ -148,7 +150,7 @@ class GtalkRobot:
         self.server_host = server_host
         self.server_port = server_port
 
-    def start(self, gmail_account, password, status_text="Available"):
+    def start(self, gmail_account, password):
         jid=xmpp.JID(gmail_account)
         user, server, password = jid.getNode(), jid.getDomain(), password
 
@@ -171,7 +173,7 @@ class GtalkRobot:
         self.conn.RegisterHandler("message", self.controller)
         self.conn.sendInitPresence()
 
-        self.setState("available", status_text)
+        self.setState(self.show, self.status)
 
         print "Bot started."
         self.GoOn()
@@ -181,4 +183,5 @@ class GtalkRobot:
 ############################################################################################################################
 if __name__ == "__main__":
     bot = GtalkRobot()
-    bot.start("PyGtalkRobot@gmail.com", "PyGtalkRobotByLdmiao", "Simple Gtalk Robot")
+    bot.setState('available', "PyGtalkRobot")
+    bot.start("PyGtalkRobot@gmail.com", "PyGtalkRobotByLdmiao")

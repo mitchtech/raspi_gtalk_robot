@@ -41,7 +41,7 @@ class GNoteBot(GtalkRobot):
 
     #command_ is the command prefix, 001 is the priviledge num, setState is the method name
     def command_001_setState(self, user, message, args):
-        """(available|online|on|busy|dnd|away|idle|out|off|xa)\s+(.*)$(?i)"""
+        """(available|online|on|busy|dnd|away|idle|out|off|xa)( +(.*))?$(?i)"""
         show = args[0]
         status = args[1]
         jid = user.getStripped()
@@ -65,4 +65,5 @@ class GNoteBot(GtalkRobot):
 if __name__ == "__main__":
     bot = GNoteBot()
     #bot = GNoteBot(debug=['always'])
-    bot.start("PyGtalkRobot@gmail.com", "PyGtalkRobotByLdmiao", "Simple Gtalk Robot")
+    bot.setState('available', "Simple Gtalk Robot")
+    bot.start("PyGtalkRobot@gmail.com", "PyGtalkRobotByLdmiao")
