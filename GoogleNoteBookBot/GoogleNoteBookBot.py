@@ -38,7 +38,7 @@ class GNoteBot(GtalkRobot):
     #########################################################################################################################
     gnotebook = None
     
-    def addNote(self, notebook, section, title, content, url="http://code.google.com/p/pygtalkrobot/"):
+    def addNote(self, notebook, section, title, content, url="mailto:ldmiao@gmail.com"):
         if self.gnotebook:
             self.gnotebook.addNote(notebook, section, title, content, url)
         else:
@@ -83,7 +83,7 @@ class GNoteBot(GtalkRobot):
         jid = user.getStripped()
         title = args[0]
         content = args[1].replace("\n", "<br/>\n").replace(" ", "&nbsp;")
-        self.addNote(jid, time.strftime("%Y-%m-%d", time.gmtime()), title, content+"\n<br/>"+time.strftime("[%Y-%m-%d %a %H:%M:%S]", time.gmtime()))
+        self.addNote(jid, time.strftime("%Y-%m-%d", time.gmtime()), title, content+"\n<br/>"+time.strftime("[%Y-%m-%d %a %H:%M:%S]", time.gmtime()), "mailto:"+jid)
         self.replyMessage(user, "Note Saved in http://notebook.google.com/")
 
     def command_003_justSave(self, user, message, args):
