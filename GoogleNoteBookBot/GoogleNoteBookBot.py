@@ -82,8 +82,8 @@ class GNoteBot(GtalkRobot):
         """[note|n|nb|notebook]\s+(.*?)\n\s*(.*)(?i)(?s)(?m)"""
         jid = user.getStripped()
         title = args[0]
-        content = args[1].replace("\n", "<br/>").replace(" ", "&nbsp;")
-        self.addNote(jid, time.strftime("%Y-%m-%d"), title, content)
+        content = args[1].replace("\n", "<br/>\n").replace(" ", "&nbsp;")
+        self.addNote(jid, time.strftime("%Y-%m-%d", time.gmtime()), title, content+"\n<br/>"+time.strftime("[%Y-%m-%d %a %H:%M:%S]", time.gmtime()))
         self.replyMessage(user, "Note Saved in http://notebook.google.com/")
 
     def command_003_justSave(self, user, message, args):
@@ -123,4 +123,4 @@ if __name__ == "__main__":
     bot = GNoteBot()
     #bot = GNoteBot(debug=['always'])
     bot.start()
-    
+
