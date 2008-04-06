@@ -83,18 +83,18 @@ class GNoteBot(GtalkRobot):
         jid = user.getStripped()
         title = args[0]
         content = args[1].replace("\n", "<br/>\n").replace(" ", "&nbsp;")
-        self.addNote(jid, time.strftime("%Y-%m-%d", time.gmtime()), title, content+"\n<br/>"+time.strftime("[%Y-%m-%d %a %H:%M:%S]", time.gmtime()), "mailto:"+jid)
+        self.addNote(jid, time.strftime("%Y-%m-%d", time.localtime()), title, content+"\n<br/>------\n<br/>"+jid+"\n<br/>"+time.strftime("[%Y-%m-%d %a %H:%M:%S]", time.localtime()), "mailto:"+jid)
         self.replyMessage(user, "Note Saved in http://notebook.google.com/")
 
     def command_003_justSave(self, user, message, args):
         """(.*?\n.*)(?s)(?m)"""
         #self.replyMessage(user, "\n"+message + "\n多行内容！")
         self.replyMessage(user, "\n"+args[0] + "\n多行内容！")
-        self.replyMessage(user, time.strftime("%Y-%m-%d %a %H:%M:%S", time.gmtime()))
+        self.replyMessage(user, time.strftime("%Y-%m-%d %a %H:%M:%S", time.localtime()))
     
     def command_100_default(self, user, message, args):
         """.*?(?s)(?m)"""
-        self.replyMessage(user, time.strftime("%Y-%m-%d %a %H:%M:%S", time.gmtime()))
+        self.replyMessage(user, time.strftime("%Y-%m-%d %a %H:%M:%S", time.localtime()))
 
     #########################################################################################################################
     def saveState(self, show, status):
