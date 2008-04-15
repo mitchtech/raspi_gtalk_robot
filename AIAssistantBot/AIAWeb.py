@@ -8,10 +8,9 @@ class AIAssistantWeb:
         params = urllib.urlencode(data)
         nf = urllib.urlopen(url, data=params, proxies=None)
         if nf:
-            f = open("chat.html", 'w')
-            f.write(nf.read())
-            f.close()
-            
+            #f = open("chat.html", 'w')
+            #f.write(nf.read())
+            #f.close()
             return True
         return False
 

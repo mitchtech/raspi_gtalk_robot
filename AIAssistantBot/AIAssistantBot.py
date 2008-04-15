@@ -92,7 +92,7 @@ class AIABot(GtalkRobot):
         """(.*)(?s)(?m)"""
         jid = user.getStripped()
         content = args[0]
-        print content
+        #print content
         
         if self.addChat(jid, content):
             replyMsg = "Chat Saved in http://aiassistant.appspot.com/"
