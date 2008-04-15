@@ -20,7 +20,7 @@
 # Homepage: http://code.google.com/p/pygtalkrobot/
 #
 
-import sys
+import sys, traceback
 import xmpp
 import urllib
 import re
@@ -128,11 +128,15 @@ class GtalkRobot:
         for (pattern, bounded_method) in self.commands:
             match_obj = re.match(pattern, text)
             if(match_obj):
-                bounded_method(user, text, match_obj.groups())
+                try:
+                    bounded_method(user, text, match_obj.groups())
+                except:
+                    #print sys.exc_info()
+                    self.replyMessage(user, "Unexpected error: \n %s" % str(sys.exc_info()[1]) )\
+                    #self.replyMessage(user, );
                 break
 
     def StepOn(self):
-        global roster
         try:
             self.conn.Process(1)
         except KeyboardInterrupt: return 0
