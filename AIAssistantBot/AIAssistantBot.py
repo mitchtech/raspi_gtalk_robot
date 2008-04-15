@@ -30,7 +30,7 @@ import ConfigParser
 
 from PyGtalkRobot import GtalkRobot
 from config import config
-from google_notebook_api import GNotebook
+from AIAWeb import AIAssistantWeb
 
 #############################################################################################################################
 
@@ -43,16 +43,16 @@ def utf8(onestr):
     return newstr.encode('utf-8', 'ignore')
 #############################################################################################################################
 
-class GNoteBot(GtalkRobot):
+class AIABot(GtalkRobot):
 
     #########################################################################################################################
-    gnotebook = None
+    aiaweb = None
     
-    def addNote(self, notebook, section, title, content, url="mailto:ldmiao@gmail.com"):
-        if self.gnotebook:
-            self.gnotebook.addNote(notebook, section, title, content, url)
-        else:
-            print "Google Notebook connection Lost!"
+    def addChat(self, email, message):
+        if not self.aiaweb:
+            self.aiaweb = AIAssistantWeb()
+        
+        return self.aiaweb.addChat(email, message)
 
     #########################################################################################################################
     cfg = config("cfg.ini")
@@ -87,25 +87,20 @@ class GNoteBot(GtalkRobot):
             show, status = self.getState()
             self.saveState(show, status)
             self.replyMessage(user, "状态设置成功！")
-    
-    def command_002_saveToNoteBook(self, user, message, args):
-        """[note|n|nb|notebook]\s+(.*?)\n\s*(.*)(?i)(?s)(?m)"""
-        jid = user.getStripped()
-        title = args[0]
-        content = args[1].replace("\n", "<br/>\n").replace(" ", "&nbsp;")
-        notecontent = content + utf8("\n<br/>------\n<br/>")+utf8(jid)+utf8("\n<br/>")+utf8(time.strftime("[%Y-%m-%d %a %H:%M:%S]", time.localtime()))
-        self.addNote(jid, time.strftime("%Y-%m-%d", time.localtime()), title, notecontent, "mailto:"+jid)
-        self.replyMessage(user, "Note Saved in http://notebook.google.com/")
 
-    def command_003_justSave(self, user, message, args):
-        """(.*?\n.*)(?s)(?m)"""
-        #self.replyMessage(user, "\n"+message + "\n多行内容！")
-        self.replyMessage(user, "\n"+args[0] + "\n多行内容！")
-        self.replyMessage(user, time.strftime("%Y-%m-%d %a %H:%M:%S", time.localtime()))
-    
-    def command_100_default(self, user, message, args):
-        """.*?(?s)(?m)"""
-        self.replyMessage(user, time.strftime("%Y-%m-%d %a %H:%M:%S", time.localtime()))
+    def command_002_saveToAIAWeb(self, user, message, args):
+        """(.*)(?s)(?m)"""
+        jid = user.getStripped()
+        content = args[0]
+        print content
+        
+        if self.addChat(jid, content):
+            replyMsg = "Chat Saved in http://aiassistant.appspot.com/"
+        else:
+            replyMsg = "Error occured."
+        replyMsg = replyMsg + " ["+time.strftime("%Y-%m-%d %a %H:%M:%S", time.localtime())+"]"
+        
+        self.replyMessage(user, replyMsg)
 
     #########################################################################################################################
     def saveState(self, show, status):
@@ -121,17 +116,13 @@ class GNoteBot(GtalkRobot):
         status = self.getCfgValue('init_param', 'status')
         self.setState(show, status)
         
-        self.gnotebook = GNotebook(name, pwd)
-        if self.gnotebook:
-            print "Google Notebook connected!"
-        
         GtalkRobot.start(self, name, pwd)
     
     #########################################################################################################################
     
 ############################################################################################################################
 if __name__ == "__main__":
-    bot = GNoteBot()
-    #bot = GNoteBot(debug=['always'])
+    bot = AIABot()
+    #bot = AIABot(debug=['always'])
     bot.start()
 
