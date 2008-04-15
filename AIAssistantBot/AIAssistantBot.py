@@ -95,7 +95,7 @@ class AIABot(GtalkRobot):
         #print content
         
         if self.addChat(jid, content):
-            replyMsg = "Chat Saved in http://aiassistant.appspot.com/"
+            replyMsg = "Chat Saved in http://aiassistant.appspot.com/chat/"
         else:
             replyMsg = "Error occured."
         replyMsg = replyMsg + " ["+time.strftime("%Y-%m-%d %a %H:%M:%S", time.localtime())+"]"
