@@ -145,12 +145,14 @@ class GtalkRobot:
 
     def presenceHandler(self, conn, presence):
         #print presence
-        #print print_info(presence)
-        print presence.getFrom(), presence.getFrom().getResource(), presence.getType(), presence.getStatus(), presence.getShow()
-        print "-"*100
-        if presence and presence.getType()=='subscribe':
-            jid = presence.getFrom().getStripped()
-            self.authorize(jid)
+        #print_info(presence)
+        if presence:
+            print "-"*100
+            print presence.getFrom(), ",", presence.getFrom().getResource(), ",", presence.getType(), ",", presence.getStatus(), ",", presence.getShow()
+            print "~"*100
+            if presence.getType()=='subscribe':
+                jid = presence.getFrom().getStripped()
+                self.authorize(jid)
 
     def StepOn(self):
         try:
