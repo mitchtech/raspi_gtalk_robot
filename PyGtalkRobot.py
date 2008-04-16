@@ -20,7 +20,7 @@
 # Homepage: http://code.google.com/p/pygtalkrobot/
 #
 
-import sys
+import sys, traceback
 import xmpp
 import urllib
 import re
@@ -35,6 +35,10 @@ To use, subclass the "GtalkRobot" class and implement "command_NUM_" methods
 (or whatever you set the command_prefix to), like sampleRobot.py.
 
 """
+
+def print_info(obj):
+    for (name, value) in inspect.getmembers(obj):
+        print '%s: %r' % (name, value)
 
 class GtalkRobot:
 
@@ -108,6 +112,10 @@ class GtalkRobot:
         if roster:
             return roster.getStatus(jid)
 
+    def authorize(self, jid):
+        """ Authorise JID 'jid'. Works only if these JID requested auth previously. """
+        self.getRoster().Authorize(jid)
+    
     ########################################################################################################################
     def initCommands(self):
         if self.commands:
@@ -128,11 +136,23 @@ class GtalkRobot:
         for (pattern, bounded_method) in self.commands:
             match_obj = re.match(pattern, text)
             if(match_obj):
-                bounded_method(user, text, match_obj.groups())
+                try:
+                    bounded_method(user, text, match_obj.groups())
+                except:
+                    print_info(sys.exc_info())
+                    self.replyMessage(user, "Unexpected error: \n %s" % str(sys.exc_info()[1]) )
                 break
 
+    def presenceHandler(self, conn, presence):
+        #print presence
+        #print print_info(presence)
+        print presence.getFrom(), presence.getFrom().getResource(), presence.getType(), presence.getStatus(), presence.getShow()
+        print "-"*100
+        if presence and presence.getType()=='subscribe':
+            jid = presence.getFrom().getStripped()
+            self.authorize(jid)
+
     def StepOn(self):
-        global roster
         try:
             self.conn.Process(1)
         except KeyboardInterrupt: return 0
@@ -145,7 +165,7 @@ class GtalkRobot:
     # "debug" parameter specifies the debug IDs that will go into debug output.
     # You can either specifiy an "include" or "exclude" list. The latter is done via adding "always" pseudo-ID to the list.
     # Full list: ['nodebuilder', 'dispatcher', 'gen_auth', 'SASL_auth', 'bind', 'socket', 'CONNECTproxy', 'TLS', 'roster', 'browser', 'ibb'].
-    def __init__(self, server_host="gmail.com", server_port=5223, debug=[]):
+    def __init__(self, server_host="talk.google.com", server_port=5223, debug=[]):
         self.debug = debug
         self.server_host = server_host
         self.server_port = server_port
@@ -171,6 +191,8 @@ class GtalkRobot:
             print "Warning: unable to perform SASL auth os %s. Old authentication method used!"%server
 
         self.conn.RegisterHandler("message", self.controller)
+        self.conn.RegisterHandler('presence',self.presenceHandler)
+        
         self.conn.sendInitPresence()
 
         self.setState(self.show, self.status)

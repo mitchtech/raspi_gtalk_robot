@@ -36,6 +36,10 @@ To use, subclass the "GtalkRobot" class and implement "command_NUM_" methods
 
 """
 
+def print_info(obj):
+    for (name, value) in inspect.getmembers(obj):
+        print '%s: %r' % (name, value)
+
 class GtalkRobot:
 
     ########################################################################################################################
@@ -108,6 +112,10 @@ class GtalkRobot:
         if roster:
             return roster.getStatus(jid)
 
+    def authorize(self, jid):
+        """ Authorise JID 'jid'. Works only if these JID requested auth previously. """
+        self.getRoster().Authorize(jid)
+    
     ########################################################################################################################
     def initCommands(self):
         if self.commands:
@@ -131,10 +139,18 @@ class GtalkRobot:
                 try:
                     bounded_method(user, text, match_obj.groups())
                 except:
-                    #print sys.exc_info()
-                    self.replyMessage(user, "Unexpected error: \n %s" % str(sys.exc_info()[1]) )\
-                    #self.replyMessage(user, );
+                    print_info(sys.exc_info())
+                    self.replyMessage(user, "Unexpected error: \n %s" % str(sys.exc_info()[1]) )
                 break
+
+    def presenceHandler(self, conn, presence):
+        #print presence
+        #print print_info(presence)
+        print presence.getFrom(), presence.getFrom().getResource(), presence.getType(), presence.getStatus(), presence.getShow()
+        print "-"*100
+        if presence and presence.getType()=='subscribe':
+            jid = presence.getFrom().getStripped()
+            self.authorize(jid)
 
     def StepOn(self):
         try:
@@ -175,6 +191,8 @@ class GtalkRobot:
             print "Warning: unable to perform SASL auth os %s. Old authentication method used!"%server
 
         self.conn.RegisterHandler("message", self.controller)
+        self.conn.RegisterHandler('presence',self.presenceHandler)
+        
         self.conn.sendInitPresence()
 
         self.setState(self.show, self.status)
