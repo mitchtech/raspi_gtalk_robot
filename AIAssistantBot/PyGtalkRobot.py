@@ -59,7 +59,7 @@ class GtalkRobot:
     # X or VERBOSE <=> (?x)         Ignores whitespace outside character sets
     
     #This method is the default action for all pattern in lowest priviledge
-    def command_999_default(self, user, message, args):
+    def command_9999999_default(self, user, message, args):
         """.*?(?s)(?m)"""
         self.replyMessage(user, message)
 
