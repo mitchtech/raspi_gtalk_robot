@@ -59,6 +59,7 @@ class SampleBot(GtalkRobot):
 
     #This method is used to send email for users.
     def command_002_SendEmail(self, user, message, args):
+        #email ldmiao@gmail.com hello dmeiao, nice to meet you, bla bla ...
         '''[email|mail|em|m]\s+(.*?@.+?)\s+(.*?),\s*(.*?)(?i)'''
         email_addr = args[0]
         subject = args[1]
