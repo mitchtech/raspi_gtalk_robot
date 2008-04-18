@@ -87,8 +87,11 @@ class AIABot(GtalkRobot):
             show, status = self.getState()
             self.saveState(show, status)
             self.replyMessage(user, "状态设置成功！")
-
     def command_002_saveToAIAWeb(self, user, message, args):
+        """[h|help|how](?i)"""
+        self.replyMessage(user, "All Chats will be Saved in http://aiassistant.appspot.com/chat/")
+        
+    def command_003_saveToAIAWeb(self, user, message, args):
         """(.*)(?s)(?m)"""
         jid = user.getStripped()
         content = args[0]
