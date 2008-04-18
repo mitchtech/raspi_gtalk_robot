@@ -89,9 +89,9 @@ class AIABot(GtalkRobot):
             self.replyMessage(user, "状态设置成功！")
     def command_002_saveToAIAWeb(self, user, message, args):
         """[h|help|how](?i)"""
-        helpMsg = "Artifical Intelligence Assistant (AIA)\n"
+        helpMsg = "Artifical Intelligence Assistant (AIA) Bot\n"
         helpMsg = helpMsg + "AIA is an assistant that can do tasks like keeping accounts, arranging TODOs and so on intelligently.\n"
-        helpMsg = helpMsg + "All Chats will be Saved in http://aiassistant.appspot.com/chat/"
+        helpMsg = helpMsg + "More information in http://aiassistant.appspot.com/chat/"
         
         self.replyMessage(user, helpMsg)
         
