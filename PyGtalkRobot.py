@@ -158,7 +158,8 @@ class GtalkRobot:
     def StepOn(self):
         try:
             self.conn.Process(1)
-        except KeyboardInterrupt: return 0
+        except KeyboardInterrupt: 
+            return 0
         return 1
 
     def GoOn(self):
@@ -176,7 +177,7 @@ class GtalkRobot:
     def start(self, gmail_account, password):
         jid=xmpp.JID(gmail_account)
         user, server, password = jid.getNode(), jid.getDomain(), password
-
+        
         self.conn=xmpp.Client(server, debug=self.debug)
         #talk.google.com
         conres=self.conn.connect( server=(self.server_host, self.server_port) )
@@ -185,23 +186,24 @@ class GtalkRobot:
             sys.exit(1)
         if conres<>'tls':
             print "Warning: unable to estabilish secure connection - TLS failed!"
-
+        
         authres=self.conn.auth(user, password)
         if not authres:
             print "Unable to authorize on %s - Plsese check your name/password."%server
             sys.exit(1)
         if authres<>"sasl":
             print "Warning: unable to perform SASL auth os %s. Old authentication method used!"%server
-
+        
         self.conn.RegisterHandler("message", self.controller)
         self.conn.RegisterHandler('presence',self.presenceHandler)
         
         self.conn.sendInitPresence()
-
+        
         self.setState(self.show, self.status)
-
+        
         print "Bot started."
         self.GoOn()
+
     ########################################################################################################################
 
 
