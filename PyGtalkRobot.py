@@ -130,18 +130,19 @@ class GtalkRobot:
     def controller(self, conn, message):
         text = message.getBody()
         user = message.getFrom()
-        text = text.encode('utf-8', 'ignore')
-        if not self.commands:
-            self.initCommands()
-        for (pattern, bounded_method) in self.commands:
-            match_obj = re.match(pattern, text)
-            if(match_obj):
-                try:
-                    bounded_method(user, text, match_obj.groups())
-                except:
-                    print_info(sys.exc_info())
-                    self.replyMessage(user, "Unexpected error: \n %s" % str(sys.exc_info()[1]) )
-                break
+        if text:
+            text = text.encode('utf-8', 'ignore')
+            if not self.commands:
+                self.initCommands()
+            for (pattern, bounded_method) in self.commands:
+                match_obj = re.match(pattern, text)
+                if(match_obj):
+                    try:
+                        bounded_method(user, text, match_obj.groups())
+                    except:
+                        print_info(sys.exc_info())
+                        self.replyMessage(user, "Unexpected error: \n %s" % str(sys.exc_info()[1]) )
+                    break
 
     def presenceHandler(self, conn, presence):
         #print presence
