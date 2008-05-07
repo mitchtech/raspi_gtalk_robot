@@ -48,6 +48,7 @@ class GtalkRobot:
     status = "PyGtalkRobot"
     commands = None
     command_prefix = 'command_'
+    GO_TO_NEXT_COMMAND = 'go_to_next'
     ########################################################################################################################
     
     #Pattern Tips:
@@ -138,11 +139,14 @@ class GtalkRobot:
                 match_obj = re.match(pattern, text)
                 if(match_obj):
                     try:
-                        bounded_method(user, text, match_obj.groups())
+                        return_value = bounded_method(user, text, match_obj.groups())
+                        if return_value == self.GO_TO_NEXT_COMMAND:
+                            pass
+                        else:
+                            break
                     except:
                         print_info(sys.exc_info())
-                        self.replyMessage(user, "Unexpected error: \n %s" % str(sys.exc_info()[1]) )
-                    break
+                        self.replyMessage(user, traceback.format_exc())
 
     def presenceHandler(self, conn, presence):
         #print presence
