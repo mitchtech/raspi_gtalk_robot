@@ -52,7 +52,7 @@ class SampleBot(GtalkRobot):
         jid = user.getStripped()
 
         # Verify if the user is the Administrator of this bot
-        if jid == 'ldmiao@gmail.com':
+        if jid == 'michael@mitchtech.net':
             print jid, " ---> ",bot.getResources(jid), bot.getShow(jid), bot.getStatus(jid)
             self.setState(show, status)
             self.replyMessage(user, "State settings changed！")
@@ -60,13 +60,23 @@ class SampleBot(GtalkRobot):
     #This method is used to send email for users.
     def command_002_SendEmail(self, user, message, args):
         #email ldmiao@gmail.com hello dmeiao, nice to meet you, bla bla ...
-        '''[email|mail|em|m]\s+(.*?@.+?)\s+(.*?),\s*(.*?)(?i)'''
-        email_addr = args[0]
-        subject = args[1]
-        body = args[2]
+        '''(email|mail|em|m)\s+(.*?)\s+(.*?),(.*)'''
+	print "hello world\n"
+	garbage = args[0]
+        email_addr = args[1]
+        subject = args[2]
+        body = args[3]
         #call_send_email_function(email_addr, subject,  body)
-        
-        self.replyMessage(user, "\nEmail sent to "+ email_addr +" at: "+time.strftime("%Y-%m-%d %a %H:%M:%S", time.gmtime()))
+
+    #This method turns on the specified GPIO pin
+    def command_003_PinOn(self, user, message, args):
+        '''(pinon|pon|on)( +(.*))?$(?i)'''
+	print "GPIO pin on\n"
+	garbage = args[0]
+        pin_num = args[1]
+        self.replyMessage(user, "\nPin on: "+ pin_num +" at: "+time.strftime("%Y-%m-%d %a %H:%M:%S", time.gmtime()))
+
+
     
     #This method is used to response users.
     def command_100_default(self, user, message, args):
@@ -77,4 +87,4 @@ class SampleBot(GtalkRobot):
 if __name__ == "__main__":
     bot = SampleBot()
     bot.setState('available', "Simple Gtalk Robot")
-    bot.start("PyGtalkRobot@gmail.com", "PyGtalkRobotByLdmiao")
+    bot.start("username@gmail.com", "password")

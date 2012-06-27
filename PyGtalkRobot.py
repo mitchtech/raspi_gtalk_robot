@@ -136,6 +136,7 @@ class GtalkRobot:
             if not self.commands:
                 self.initCommands()
             for (pattern, bounded_method) in self.commands:
+		print "Testing [%s] against regex [%s]\n" % (text, pattern)
                 match_obj = re.match(pattern, text)
                 if(match_obj):
                     try:
@@ -215,4 +216,4 @@ class GtalkRobot:
 if __name__ == "__main__":
     bot = GtalkRobot()
     bot.setState('available', "PyGtalkRobot")
-    bot.start("PyGtalkRobot@gmail.com", "PyGtalkRobotByLdmiao")
+    bot.start("username@gmail.com", "password")
