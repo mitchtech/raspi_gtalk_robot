@@ -20,18 +20,13 @@
 # Homepage: http://code.google.com/p/pygtalkrobot/
 #
 
-#
-# This is an sample PyGtalkRobot that serves to set the show type and status text of robot by receiving message commands.
-#
-
 import sys
 import time
-
+import RPi.GPIO as GPIO
 from PyGtalkRobot import GtalkRobot
-
 ############################################################################################################################
 
-class SampleBot(GtalkRobot):
+class RaspiBot(GtalkRobot):
     
     #Regular Expression Pattern Tips:
     # I or IGNORECASE <=> (?i)      case insensitive matching
@@ -57,24 +52,16 @@ class SampleBot(GtalkRobot):
             self.setState(show, status)
             self.replyMessage(user, "State settings changed！")
 
-    #This method is used to send email for users.
-    def command_002_SendEmail(self, user, message, args):
-        #email ldmiao@gmail.com hello dmeiao, nice to meet you, bla bla ...
-        '''(email|mail|em|m)\s+(.*?)\s+(.*?),(.*)'''
-	print "hello world\n"
-	garbage = args[0]
-        email_addr = args[1]
-        subject = args[2]
-        body = args[3]
-        #call_send_email_function(email_addr, subject,  body)
 
     #This method turns on the specified GPIO pin
     def command_003_PinOn(self, user, message, args):
         '''(pinon|pon|on)( +(.*))?$(?i)'''
-	print "GPIO pin on\n"
-	garbage = args[0]
-        pin_num = args[1]
-        self.replyMessage(user, "\nPin on: "+ pin_num +" at: "+time.strftime("%Y-%m-%d %a %H:%M:%S", time.gmtime()))
+		print "GPIO pin on\n"
+		garbage = args[0]
+		pin_num = args[1]
+		GPIO.setup(int(pin_num), GPIO.OUT)
+		GPIO.output(int(pin_num), True)
+		self.replyMessage(user, "\nPin on: "+ pin_num +" at: "+time.strftime("%Y-%m-%d %a %H:%M:%S", time.gmtime()))
 
 
     
@@ -85,6 +72,6 @@ class SampleBot(GtalkRobot):
 
 ############################################################################################################################
 if __name__ == "__main__":
-    bot = SampleBot()
-    bot.setState('available', "Simple Gtalk Robot")
+    bot = RaspiBot()
+    bot.setState('available', "Raspi Gtalk Robot")
     bot.start("username@gmail.com", "password")
