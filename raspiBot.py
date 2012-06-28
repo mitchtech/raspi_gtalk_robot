@@ -64,8 +64,34 @@ class RaspiBot(GtalkRobot):
 		self.replyMessage(user, "\nPin on: "+ pin_num +" at: "+time.strftime("%Y-%m-%d %a %H:%M:%S", time.gmtime()))
 
 
+    #This method turns off the specified GPIO pin
+    def command_003_PinOff(self, user, message, args):
+        '''(pinon|pon|on)( +(.*))?$(?i)'''
+		print "GPIO pin off\n"
+		garbage = args[0]
+		pin_num = args[1]
+		GPIO.setup(int(pin_num), GPIO.OUT)
+		GPIO.output(int(pin_num), False)
+		self.replyMessage(user, "\nPin off: "+ pin_num +" at: "+time.strftime("%Y-%m-%d %a %H:%M:%S", time.gmtime()))
+
+
+    #This method writes to the specified GPIO pin
+    def command_003_write(self, user, message, args):
+        '''(pinon|pon|on)( +(.*))?$(?i)'''
+		print "GPIO pin on\n"
+		garbage = args[0]
+		pin_num = args[1]
+		state = args[2]
+		GPIO.setup(int(pin_num), GPIO.OUT)
+		if int(args[2]) == 1
+			GPIO.output(int(pin_num), True)
+			self.replyMessage(user, "\nPin on: "+ pin_num +" at: "+time.strftime("%Y-%m-%d %a %H:%M:%S", time.gmtime()))
+		elif int(args[2]) == 0
+			GPIO.output(int(pin_num), False)
+			self.replyMessage(user, "\nPin off: "+ pin_num +" at: "+time.strftime("%Y-%m-%d %a %H:%M:%S", time.gmtime()))
     
-    #This method is used to response users.
+    
+    #This method is the default response
     def command_100_default(self, user, message, args):
         '''.*?(?s)(?m)'''
         self.replyMessage(user, time.strftime("%Y-%m-%d %a %H:%M:%S", time.gmtime()))
