@@ -55,7 +55,7 @@ class RaspiBot(GtalkRobot):
 
     #This method turns on the specified GPIO pin
     def command_003_PinOn(self, user, message, args):
-        '''(pinon|pon|on)( +(.*))?$(?i)'''
+		'''(pinon|pon|on)( +(.*))?$(?i)'''
 		print "GPIO pin on\n"
 		garbage = args[0]
 		pin_num = args[1]
@@ -66,7 +66,7 @@ class RaspiBot(GtalkRobot):
 
     #This method turns off the specified GPIO pin
     def command_003_PinOff(self, user, message, args):
-        '''(pinon|pon|on)( +(.*))?$(?i)'''
+		'''(pinon|pon|on)( +(.*))?$(?i)'''
 		print "GPIO pin off\n"
 		garbage = args[0]
 		pin_num = args[1]
@@ -77,24 +77,35 @@ class RaspiBot(GtalkRobot):
 
     #This method writes to the specified GPIO pin
     def command_003_write(self, user, message, args):
-        '''(pinon|pon|on)( +(.*))?$(?i)'''
-		print "GPIO pin on\n"
+		'''(write|w)( +(.*))?$(?i)'''
+		print "GPIO pin write\n"
 		garbage = args[0]
 		pin_num = args[1]
 		state = args[2]
 		GPIO.setup(int(pin_num), GPIO.OUT)
-		if int(args[2]) == 1
+		if int(args[2]) == 1:
 			GPIO.output(int(pin_num), True)
 			self.replyMessage(user, "\nPin on: "+ pin_num +" at: "+time.strftime("%Y-%m-%d %a %H:%M:%S", time.gmtime()))
-		elif int(args[2]) == 0
+		elif int(args[2]) == 0:
 			GPIO.output(int(pin_num), False)
 			self.replyMessage(user, "\nPin off: "+ pin_num +" at: "+time.strftime("%Y-%m-%d %a %H:%M:%S", time.gmtime()))
+
+
+    #This method reads the value of the specified GPIO pin
+    def command_003_read(self, user, message, args):
+		'''(read|r)( +(.*))?$(?i)'''
+		print "GPIO pin read\n"
+		garbage = args[0]
+		pin_num = args[1]
+		GPIO.setup(int(pin_num), GPIO.IN)
+		pin_value = GPIO.input(int(pin_num))
+		self.replyMessage(user, "\nPin read: "+ pin_num + " value: " + pin_value + " at: "+time.strftime("%Y-%m-%d %a %H:%M:%S", time.gmtime()))
     
     
     #This method is the default response
     def command_100_default(self, user, message, args):
-        '''.*?(?s)(?m)'''
-        self.replyMessage(user, time.strftime("%Y-%m-%d %a %H:%M:%S", time.gmtime()))
+		'''.*?(?s)(?m)'''
+		self.replyMessage(user, time.strftime("%Y-%m-%d %a %H:%M:%S", time.gmtime()))
 
 ############################################################################################################################
 if __name__ == "__main__":
