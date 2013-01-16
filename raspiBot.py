@@ -33,8 +33,6 @@ BOT_GTALK_PASS = 'password'
 BOT_ADMIN = 'admin_username@gmail.com'
 
 GPIO.setmode(GPIO.BOARD) # or GPIO.setmode(GPIO.BCM)
-SERVO_LEFT = 1
-SERVO_RIGHT = 2
 ############################################################################################################################
 
 class RaspiBot(GtalkRobot):
@@ -104,7 +102,7 @@ class RaspiBot(GtalkRobot):
         pin_num = args[1]
         GPIO.setup(int(pin_num), GPIO.IN)
         pin_value = GPIO.input(int(pin_num))
-        self.replyMessage(user, "\nPin read: "+ pin_num + " value: " + pin_value + " at: "+time.strftime("%Y-%m-%d %a %H:%M:%S", time.gmtime()))
+        self.replyMessage(user, "\nPin read: "+ pin_num + " value: " + str(pin_value) + " at: "+time.strftime("%Y-%m-%d %a %H:%M:%S", time.gmtime()))
     
     #This executes the shell command argument after 'shell' or 'bash'
     def command_003_shell(self, user, message, args):
