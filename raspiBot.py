@@ -68,7 +68,7 @@ class RaspiBot(GtalkRobot):
         pin_num = args[1]
         GPIO.setup(int(pin_num), GPIO.OUT)
         GPIO.output(int(pin_num), True)
-        self.replyMessage(user, "\nPin on: "+ pin_num +" at: "+time.strftime("%Y-%m-%d %a %H:%M:%S", time.gmtime()))
+        self.replyMessage(user, "\nPin on: "+ pin_num +" at: "+time.strftime("%Y-%m-%d %a %H:%M:%S", time.localtime()))
 
     #This method turns off the specified GPIO pin
     def command_003_pinOff(self, user, message, args):
@@ -77,7 +77,7 @@ class RaspiBot(GtalkRobot):
         pin_num = args[1]
         GPIO.setup(int(pin_num), GPIO.OUT)
         GPIO.output(int(pin_num), False)
-        self.replyMessage(user, "\nPin off: "+ pin_num +" at: "+time.strftime("%Y-%m-%d %a %H:%M:%S", time.gmtime()))
+        self.replyMessage(user, "\nPin off: "+ pin_num +" at: "+time.strftime("%Y-%m-%d %a %H:%M:%S", time.localtime()))
 
     #This method writes to the specified GPIO pin
     def command_003_write(self, user, message, args):
@@ -90,10 +90,10 @@ class RaspiBot(GtalkRobot):
 
         if int(state) == 1:
             GPIO.output(int(pin_num), True)
-            self.replyMessage(user, "Pin on: "+ pin_num +" at: "+time.strftime("%Y-%m-%d %a %H:%M:%S", time.gmtime()))
+            self.replyMessage(user, "Pin on: "+ pin_num +" at: "+time.strftime("%Y-%m-%d %a %H:%M:%S", time.localtime()))
         elif int(state) == 0:
             GPIO.output(int(pin_num), False)
-            self.replyMessage(user, "Pin off: "+ pin_num +" at: "+time.strftime("%Y-%m-%d %a %H:%M:%S", time.gmtime()))
+            self.replyMessage(user, "Pin off: "+ pin_num +" at: "+time.strftime("%Y-%m-%d %a %H:%M:%S", time.localtime()))
 
     #This method reads the value of the specified GPIO pin
     def command_003_read(self, user, message, args):
@@ -102,7 +102,7 @@ class RaspiBot(GtalkRobot):
         pin_num = args[1]
         GPIO.setup(int(pin_num), GPIO.IN)
         pin_value = GPIO.input(int(pin_num))
-        self.replyMessage(user, "\nPin read: "+ pin_num + " value: " + str(pin_value) + " at: "+time.strftime("%Y-%m-%d %a %H:%M:%S", time.gmtime()))
+        self.replyMessage(user, "\nPin read: "+ pin_num + " value: " + str(pin_value) + " at: "+time.strftime("%Y-%m-%d %a %H:%M:%S", time.localtime()))
     
     #This executes the shell command argument after 'shell' or 'bash'
     def command_003_shell(self, user, message, args):
@@ -114,12 +114,12 @@ class RaspiBot(GtalkRobot):
             output += line
             print line,
         retval = p.wait()
-        self.replyMessage(user, output +" at: "+time.strftime("%Y-%m-%d %a %H:%M:%S", time.gmtime()))
+        self.replyMessage(user, output +" at: "+time.strftime("%Y-%m-%d %a %H:%M:%S", time.localtime()))
     
     #This method is the default response
     def command_100_default(self, user, message, args):
         '''.*?(?s)(?m)'''
-        self.replyMessage(user, time.strftime("%Y-%m-%d %a %H:%M:%S", time.gmtime()))
+        self.replyMessage(user, time.strftime("%Y-%m-%d %a %H:%M:%S", time.localtime()))
 
 ############################################################################################################################
 if __name__ == "__main__":
