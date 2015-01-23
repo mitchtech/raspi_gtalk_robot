@@ -94,7 +94,7 @@ class GtalkRobot:
 
     def replyMessage(self, user, message):
 	senderMSG = xmpp.Message(user, message);
-	senderMSG.setAttr(‘type’, ‘chat’)
+	senderMSG.setAttr("type", "chat")
 	self.conn.send(senderMSG)
 
     def getRoster(self):
