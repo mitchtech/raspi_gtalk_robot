@@ -61,17 +61,6 @@ class RaspiBot(GtalkRobot):
             self.setState(show, status)
             self.replyMessage(user, "State settings changed！")
 
-    #This method is used to send email for users.
-    def command_002_SendEmail(self, user, message, args):
-        #email ldmiao@gmail.com hello dmeiao, nice to meet you, bla bla ...
-        '''[email|mail|em|m]\s+(.*?@.+?)\s+(.*?),\s*(.*?)(?i)'''
-        email_addr = args[0]
-        subject = args[1]
-        body = args[2]
-        #call_send_email_function(email_addr, subject,  body)
-        
-        self.replyMessage(user, "\nEmail sent to "+ email_addr +" at: "+time.strftime("%Y-%m-%d %a %H:%M:%S", time.gmtime()))
-
     #This method turns on the specified GPIO pin
     def command_003_pinOn(self, user, message, args):
         '''(pinon|pon|on|high)( +(.*))?$(?i)'''
