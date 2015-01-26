@@ -5,6 +5,8 @@ This script will allow you to communicate directly with your Raspberry Pi using 
 
 You can run it in any device that supports google hangouts
 
+[Check the video](http://youtu.be/vd6RlkAXWRs)
+
 ## How can I install it?
 
 **1.** Install Python 2.7
